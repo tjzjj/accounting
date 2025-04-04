@@ -1,24 +1,49 @@
 import { defineBoot } from '#q-app/wrappers'
 import axios from 'axios'
+import { useAuthStore } from 'stores/authStore' // <-- Import the auth store
 
-// Be careful when using SSR for cross-request state pollution
-// due to creating a Singleton instance here;
-// If any client changes this (global) instance, it might be a
-// good idea to move this instance creation inside of the
-// "export default () => {}" function below (which runs individually
-// for each client)
-const api = axios.create({ baseURL: 'https://api.example.com' })
+const api = axios.create({
+  baseURL: 'http://127.0.0.1:8000/api', // Your Laravel API endpoint
+  withCredentials: true, // Required for Sanctum cookies
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
+  }
+})
 
-export default defineBoot(({ app }) => {
-  // for use inside Vue files (Options API) through this.$axios and this.$api
+export default defineBoot(({ app, router }) => {
+  // Request interceptor for auth token
+  api.interceptors.request.use(config => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  })
+
+  // Response interceptor
+  api.interceptors.response.use(
+    response => response,
+    error => {
+      if (error.response?.status === 401) {
+        // Handle 401 Unauthorized error (clear auth and redirect to login)
+        localStorage.removeItem('token')
+
+        const authStore = useAuthStore() // Now correctly imported
+        authStore.resetAuthState() // Reset store state (user and token)
+
+        if (router.currentRoute.value.path !== '/admin-login') {
+          router.push('/admin-login')
+        }
+      }
+      return Promise.reject(error)
+    }
+  )
 
   app.config.globalProperties.$axios = axios
-  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
-  //       so you won't necessarily have to import axios in each vue file
-
   app.config.globalProperties.$api = api
-  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
-  //       so you can easily perform requests against your app's API
 })
 
 export { api }
