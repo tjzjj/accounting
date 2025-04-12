@@ -6,7 +6,6 @@
         <q-icon name="search" />
       </template>
     </q-input>
-
     <!-- User Table -->
     <q-table
       flat bordered
@@ -26,8 +25,8 @@
       <template v-slot:body-cell-action="props">
         <q-td :props="props" class="action-buttons">
           <q-btn dense round flat color="red" icon="cancel" size="sm" @click="openCancelModal(props.row)" />
-          <q-btn dense round flat color="green" icon="check" size="sm" class="q-mx-sm" @click="openAcceptModal(props.row)" />
-          <q-btn dense round flat color="blue-8" icon="visibility" size="sm" class="q-mx-sm" />
+          <q-btn dense round flat color="green" icon="check_circle" size="sm" class="q-mx-sm" @click="openAcceptModal(props.row)" />
+          <q-btn dense round flat color="blue-8" icon="visibility" size="sm" class="q-mx-sm" @click="openViewModal(props.row)"/>
         </q-td>
       </template>
     </q-table>
@@ -89,16 +88,56 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <!-- View Details Modal -->
+<q-dialog v-model="viewModal.show" persistent>
+  <q-card style="min-width: 350px; max-width: 450px;">
+    <q-card-section>
+      <div class="text-h6 text-center q-mb-md">SIGN UP DETAILS</div>
+
+      <div class="q-mb-sm"><strong>Name:<br></strong> {{ viewModal.selectedRow?.name }}</div>
+      <div class="q-mb-sm"><strong>Barangay:<br></strong> {{ viewModal.selectedRow?.barangay }}</div>
+      <div class="q-mb-sm"><strong>Position:<br></strong> {{ viewModal.selectedRow?.position }}</div>
+      <div class="q-mb-sm"><strong>Username:<br></strong> {{ viewModal.selectedRow?.username }}</div>
+      <div class="q-mb-sm"><strong>Email:<br></strong> {{ viewModal.selectedRow?.email }}</div>
+      <div class="q-mt-md"><strong>Picture<br></strong></div>
+      <div class="q-mt-sm flex" style="align-items: flex-start; gap: 20px;">
+        <q-img
+          :src="viewModal.selectedRow?.avatar || 'https://www.w3schools.com/w3images/avatar2.png'" 
+          style="max-width: 200px; border-radius: 8px;"
+          spinner-color="grey-5"
+          contain 
+        />
+      </div>
+    </q-card-section>
+
+    <q-card-actions align="right" class="q-pb-md q-pr-md">
+      <q-btn  
+        unelevated
+        label="Close"
+        color="blue-9"
+        v-close-popup
+        style="min-width: 80px;"
+      />
+    </q-card-actions>
+  </q-card>
+  </q-dialog>
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
       search: "",
       users: [
-        { date: "February 27, 2025", username: "alexamay33", email: "alexap@gmail.com", status: "Pending" },
+      {
+          name: "Alexandra May T. Pis-ing",
+          barangay: "Visayan Village",
+          position: "Secretary",
+          username: "alexamay20",  
+          email: "alexap@gmail.com",
+          avatar: "https://www.w3schools.com/w3images/avatar2.png"
+    },
+        { date: "February 26, 2025", username: "alexamay3", email: "aalexap@gmail.com", status: "Pending" },
         { date: "February 26, 2025", username: "alexamay34", email: "aalexap@gmail.com", status: "Pending" },
         { date: "February 25, 2025", username: "alexamay35", email: "aaalexap@gmail.com", status: "Pending" },
         { date: "February 25, 2025", username: "alexamay36", email: "aaaalexap@gmail.com", status: "Pending" }
@@ -115,6 +154,10 @@ export default {
         selectedRow: null
       },
       acceptModal: {
+        show: false,
+        selectedRow: null
+      },
+      viewModal: {
         show: false,
         selectedRow: null
       }
@@ -137,6 +180,10 @@ export default {
     openAcceptModal(row) {
       this.acceptModal.selectedRow = row;
       this.acceptModal.show = true;
+    },
+    openViewModal(row) {
+      this.viewModal.selectedRow = row;
+      this.viewModal.show = true;
     },
     confirmCancel() {
       this.users = this.users.filter(user => user.username !== this.cancelModal.selectedRow.username);
@@ -177,7 +224,7 @@ export default {
 }
 
 :deep(.q-table thead th) {
-  background: linear-gradient(to bottom, #a3c19f, #e6f5d6);
+  background: linear-gradient(to bottom, #c8e6c9, #c8e6c9);
   color: black;
   font-weight: bold;
 }
@@ -202,9 +249,10 @@ export default {
 
 .q-card {
   border-radius: 8px;
-  text-align: center;
+ 
 }
 .q-card__section {
   padding: 20px 16px 0;
 }
 </style>
+

@@ -8,9 +8,12 @@
     <q-list>
       <!-- Logo -->
       <div class="logo-container">
-        <q-img src="/icons/Tagum.png" class="logo" />
-      </div>
-
+        <q-img src="/icons/Tagum.png" class="logo"/>
+        <div class="text-logo">
+               Electronic Registry of Appropriation and Commitment (ERAC)
+          </div>
+          </div>
+          <br>
       <!-- Menu Items -->
       <q-item clickable v-ripple to="/app/dashboard" exact active-class="active-menu">
         <q-item-section avatar>
@@ -68,9 +71,19 @@ export default {
 
 <style scoped>
 .logo {
-  width: 120px;
-  margin: 35px;
-  display: block;
+  width: 130px;
+  display: block;    
+  margin: 0 auto; 
+  margin-top: 30px;
+    
+}
+.text-logo {  
+  font-size: 13px;
+  color: #000000;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0px;
+
 }
 
 .q-item {

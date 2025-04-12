@@ -8,7 +8,7 @@
         <q-img src="icons/Tagum.png" class="logo" contain />
         <div class="text-h5 text-center text-bold">City Accounting Office</div>
             <div class="text-center text-italic text-black-7 text-bold">
-                Registry of Appropriation and Commitment (RAC)
+               Electronic Registry of Appropriation and Commitment (ERAC)
             </div>
             <div class="text-h6 text-bold text-center text-green-8 q-mt-md">Admin</div>
             <q-form @submit.prevent="onSubmit" class="q-gutter-md">
@@ -136,7 +136,7 @@ export default {
 }
 
 .logo {
-    width: 190px;
+    width: 180px;
     height: auto;
     display: block;
     margin: 0 auto;

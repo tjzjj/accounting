@@ -41,44 +41,55 @@
 
     <!-- Access Management Modal -->
     <q-dialog v-model="accessModal.show" persistent>
-      <q-card style="width: 350px">
-        <q-card-section>
-          <div class="text-h6">User Access</div>
-          <div class="text-subtitle1 q-mt-sm">Username: <strong>{{ accessModal.selectedRow?.username || 'telecomxy3' }}</strong></div>
-        </q-card-section>
+  <q-card style="width: 350px">
+    <q-card-section>
+      <div class="text-h6">User Access</div>
+      <div class="text-subtitle1 q-mt-sm">Username: <strong>{{ accessModal.selectedRow?.username || 'telecomxy3' }}</strong></div>
+    </q-card-section>
 
-        <q-card-section class="q-pt-none q-pb-none">
-          <div class="access-grid">
-            <div class="access-row">
-              <span class="access-label">Access View:</span>  
-              <q-toggle v-model="accessModal.access.view" color="green" size="lg" />
-            </div>
-            <div class="access-row">
-              <span class="access-label">Access Add:</span>
-              <q-toggle v-model="accessModal.access.add" color="green" size="lg" />
-            </div>
-            <div class="access-row">
-              <span class="access-label">Access Edit:</span>
-              <q-toggle v-model="accessModal.access.edit" color="green" size="lg" />
-            </div>
-            <div class="access-row">
-              <span class="access-label">Access Delete:</span>  
-              <q-toggle v-model="accessModal.access.delete" color="green" size="lg" />
-            </div>
-            <div class="access-row">
-              <span class="access-label">Access Print:</span>
-              <q-toggle v-model="accessModal.access.print" color="green" size="lg" />
-            </div>
-          </div>
-        </q-card-section>
+    <q-card-section class="q-pt-none q-pb-none">
+      <div class="access-grid">
+        <div class="access-row">
+          <span class="access-label">Access View:</span>  
+          <q-toggle v-model="accessModal.access.view" color="green" size="lg" />
+        </div>
+        <div class="access-row">
+          <span class="access-label">Access Add:</span>
+          <q-toggle v-model="accessModal.access.add" color="green" size="lg" />
+        </div>
+        <div class="access-row">
+          <span class="access-label">Access Edit:</span>
+          <q-toggle v-model="accessModal.access.edit" color="green" size="lg" />
+        </div>
+        <div class="access-row">
+          <span class="access-label">Access Delete:</span>  
+          <q-toggle v-model="accessModal.access.delete" color="green" size="lg" />
+        </div>
+        <div class="access-row">
+          <span class="access-label">Access Print:</span>
+          <q-toggle v-model="accessModal.access.print" color="green" size="lg" />
+        </div>
+      </div>
+    </q-card-section>
 
-        <q-card-actions align="right" class="q-pt-md q-pb-none">
-          <q-btn flat label="Cancel" color="grey-8" v-close-popup class="action-btn" />
-          <q-btn unelevated label="Save" color="green" @click="saveAccess" class="action-btn" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  </div>
+    <q-card-actions align="right" class="q-pa-md">
+      <q-btn
+        unelevated
+        label="CANCEL"
+        color="primary"
+        @click="accessModal.show = false"
+        class="q-mr-sm"
+      />
+      <q-btn
+        unelevated
+        label="SAVE"
+        color="green"
+        @click="saveAccess"
+      />
+    </q-card-actions>
+  </q-card> 
+</q-dialog>
+</div>
 </template>
 
 <script>

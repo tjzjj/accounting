@@ -5,21 +5,24 @@
       <q-page class="q-pa-lg">
         <!-- Summary Cards -->
         <div class="row q-col-gutter-md q-mb-md">
-          <q-card class="col-4 summary-card bg-green-3">
+          <q-card class="col-4 summary-card">
+            <div class="card-top-strip"></div>
             <q-card-section>
               <q-icon name="account_balance" class="summary-icon" />
-              <div class="summary-text">Total Expenses</div>
+              <div class="summary-text">Total Budget</div>
               <div class="summary-value">{{ selectedData.expenses }}</div>
             </q-card-section>
           </q-card>
-          <q-card class="col-4 summary-card bg-green-3">
+          <q-card class="col-4 summary-card ">
+            <div class="card-top-strip"></div>
             <q-card-section>
               <q-icon name="payment" class="summary-icon" />
-              <div class="summary-text">Total Budget</div>
+              <div class="summary-text">Total Expenses</div>
               <div class="summary-value">{{ selectedData.budget }}</div>
             </q-card-section>
           </q-card>
-          <q-card class="col-4 summary-card bg-green-3 width">
+          <q-card class="col-4 summary-card">
+            <div class="card-top-strip"></div>
             <q-card-section>
               <q-icon name="balance" class="summary-icon" />
               <div class="summary-text">Total Balance</div>
@@ -61,8 +64,9 @@ export default {
       
       summaryColumns: [
         { name: "barangay", label: "Barangay", align: "left", field: "barangay" },
-        { name: "appropriation", label: "Appropriation", align: "right", field: "appropriation" },
-        { name: "balance", label: "Balance", align: "right", field: "balance" }
+        { name: "budget", label: "Total Budget", align: "left", field: "appropriation" },  
+        { name: "appropriation", label: "Total Expenses", align: "right", field: "appropriation" },
+        { name: "balance", label: "Total Balance", align: "right", field: "balance" }
       ],
       barangaySummary: [
         { barangay: "Apokon", appropriation: "28,000.00", balance: "28,000.00" },
@@ -98,16 +102,30 @@ export default {
 
 <style scoped>
 .summary-card {
-  width: 320px; /* Adjust width */
-  height: 130px; /* Adjust height */
-  background-color: #14b80e; /* Light green background */
-  border-radius: 15px; /* Rounded corners */
+  width: 320px; 
+  height: 130px; 
+  background-color: #fffffff8; 
+  border-radius: 15px; 
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center; 
   margin:12px;
+
+  }
+
+  .card-top-strip {
+  height: 8px;
+  width: 100%;
+  background-color: #2e7d32; 
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; 
 }
+
 .summary-icon {
   font-size: 30px;
   color: green;
@@ -124,8 +142,6 @@ export default {
 .my-sticky-header-table {
   max-height: 500px;
 }
-
-
 
 
 .my-sticky-header-table thead tr:first-child th {

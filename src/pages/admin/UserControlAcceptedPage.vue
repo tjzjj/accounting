@@ -26,7 +26,15 @@
       <!-- Custom Actions Column -->
       <template v-slot:body-cell-action="props">
         <q-td :props="props" class="action-buttons">
-          <q-btn dense round flat color="blue-8" icon="visibility" size="sm" />
+          <q-btn 
+            dense 
+            round 
+            flat 
+            color="blue-8" 
+            icon="visibility" 
+            size="sm" 
+            @click="openViewModal(props.row)" 
+          />
           <q-btn 
             dense 
             round 
@@ -68,6 +76,50 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <!-- View Details Modal -->
+    <q-dialog v-model="viewModal.show" persistent>
+      <q-card style="min-width: 350px; max-width: 450px;">
+        <q-card-section>
+          <div class="text-h6 text-center q-mb-md">USER DETAILS</div>
+
+          <div class="q-mb-sm">
+            <strong>Name:<br></strong> {{ viewModal.selectedRow?.name }}
+          </div>
+          <div class="q-mb-sm">
+            <strong>Barangay:<br></strong> {{ viewModal.selectedRow?.barangay }}
+          </div>
+          <div class="q-mb-sm">
+            <strong>Position:<br></strong> {{ viewModal.selectedRow?.position }}
+          </div>
+          <div class="q-mb-sm">
+            <strong>Username:<br></strong> {{ viewModal.selectedRow?.username }}
+          </div>
+          <div class="q-mb-sm">
+            <strong>Email:<br></strong> {{ viewModal.selectedRow?.email }}
+          </div>
+          <div class="q-mt-md"><strong>Picture:</strong></div>
+          <div class="q-mt-sm flex flex-left">
+            <q-img
+              :src="viewModal.selectedRow?.image || 'https://www.w3schools.com/w3images/avatar2.png'"
+              style="max-width: 200px; border-radius: 8px;"
+              spinner-color="grey-5"
+              contain
+            />
+          </div>
+        </q-card-section>
+
+        <q-card-actions align="right" class="q-pb-md q-pr-md">
+          <q-btn
+            unelevated
+            label="Close"
+            color="blue-9"
+            v-close-popup
+            style="min-width: 80px;"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -78,9 +130,9 @@ export default {
     return {
       search: "",
       users: [
-        { username: "elecomvp34", email: "elkencp@gmail.com", status: "Accepted", action: "View" },
-        { username: "elecomvp33", email: "elkencp@gmail.com", status: "Accepted", action: "Edit" },
-        { username: "elecomvp32", email: "elkencp@gmail.com", status: "Accepted", action: "Edit" }
+        { username: "elecomvp34", email: "elkencp@gmail.com", status: "Accepted", name: "Alexandra May T. Pis-ing", barangay: "Visayan Village", position: "Secretary", image: "https://www.w3schools.com/w3images/avatar2.png" },
+        { username: "elecomvp33", email: "elkencp@gmail.com", status: "Accepted", name: "Michael Smith", barangay: "Santo Niño", position: "Treasurer", image: "https://www.w3schools.com/w3images/avatar2.pngg" },
+        { username: "elecomvp32", email: "elkencp@gmail.com", status: "Accepted", name: "John Doe", barangay: "Nueva Vida", position: "Chairperson", image: "https://www.w3schools.com/w3images/avatar2.png" }
       ],
       columns: [
         { name: "username", label: "Username", field: "username", align: "left", sortable: true },
@@ -89,6 +141,10 @@ export default {
         { name: "action", label: "Actions", field: "action", align: "center" }
       ],
       deleteModal: {
+        show: false,
+        selectedRow: null
+      },
+      viewModal: {
         show: false,
         selectedRow: null
       }
@@ -120,6 +176,10 @@ export default {
         type: 'positive',
         message: 'User deleted successfully'
       });
+    },
+    openViewModal(row) {
+      this.viewModal.selectedRow = row;
+      this.viewModal.show = true;
     }
   }
 };
@@ -138,7 +198,7 @@ export default {
 }
 
 :deep(.q-table thead th) {
-  background: linear-gradient(to bottom, #a3c19f, #e6f5d6);
+  background: linear-gradient(to bottom, #c8e6c9, #c8e6c9);
   color: black;
   font-weight: bold;
 }
